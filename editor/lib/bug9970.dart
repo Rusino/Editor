@@ -1,12 +1,18 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/gestures.dart' show DragStartBehavior, PointerDeviceKind;
+import 'package:flutter_test/flutter_test.dart';
 import 'bug.dart';
 
-class Bug9970 extends StatelessWidget {
+class Bug9970 extends Bug {
 
   @override
   Widget build(BuildContext context) {
 
     return Bug(
+        explanation: 'The second character should render using the glyph for the HK locale.  But currently with SkParagraph the two characters look identical.',
         child: Material(
         child: Directionality(
             textDirection: TextDirection.ltr,
@@ -27,6 +33,14 @@ class Bug9970 extends StatelessWidget {
             )
         )
     ));
+  }
+
+  Future<bool> test(WidgetTester tester) async {
+    bool success = true;
+    // TODO: Take a snapshot
+    await tester.pumpAndSettle();
+    await tester.pump(delay);
+    return success;
   }
 }
 

@@ -51,21 +51,18 @@ class MyAppPageState extends State<MyAppPage> {
   @override
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
     return
       MediaQuery(
       data: MediaQueryData(),
       child: Container(
         key: Key('Container'),
-        constraints: BoxConstraints(minHeight: size.height , minWidth: size.width),
-        //width: size.width * textScaleFactor,
-        //height: size.height * textScaleFactor,
         padding: EdgeInsets.all(30.0),
         color: Colors.white,
         child: Column(
           key: Key('Column'),
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          // TODO: transform into a list
           children: <Widget>[
             FlatButton(child: Text('Bug #9850'), key: Key('Bug9850'),
                 onPressed: () => { Navigator.pushNamed(context, 'Bug9850')}),
@@ -83,7 +80,7 @@ class MyAppPageState extends State<MyAppPage> {
                 onPressed: () => { Navigator.pushNamed(context, 'Bug9969')}),
             FlatButton(child: Text('Bug #9970'), key: Key('Bug9970'),
                 onPressed: () => { Navigator.pushNamed(context, 'Bug9970')}),
-            Expanded(child: Container(constraints: BoxConstraints(minHeight: size.height))),
+            Expanded(child: Container()),
           ],
         ),
       ),
