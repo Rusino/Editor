@@ -12,12 +12,11 @@ import 'bug9969.dart';
 import 'bug9970.dart';
 
 
-void main() => runApp(MyApp(1.0));
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 
-  MyApp(this.textScaleFactor) { }
-  final double textScaleFactor;
+  MyApp() { }
 
   @override
   Widget build(BuildContext context) {
@@ -25,33 +24,29 @@ class MyApp extends StatelessWidget {
       key: Key('MaterialApp'),
       theme: kLightGalleryTheme,
       title: 'Test Bugs',
-      home: MyAppPage(title: 'Text Editor Tests Home Page', textScaleFactor: textScaleFactor),
+      home: MyAppPage(title: 'Text Editor Tests Home Page'),
       routes : {
-        'Bug9850': (BuildContext context) => Bug9850(textScaleFactor),
-        'Bug9851': (BuildContext context) => Bug9851(textScaleFactor),
-        'Bug9875': (BuildContext context) => Bug9875(textScaleFactor),
-        'Bug9881': (BuildContext context) => Bug9881(textScaleFactor),
-        'Bug9882': (BuildContext context) => Bug9882(textScaleFactor),
-        'Bug9968': (BuildContext context) => Bug9968(textScaleFactor),
-        'Bug9969': (BuildContext context) => Bug9969(textScaleFactor),
-        'Bug9970': (BuildContext context) => Bug9970(textScaleFactor),
+        'Bug9850': (BuildContext context) => Bug9850(),
+        'Bug9851': (BuildContext context) => Bug9851(),
+        'Bug9875': (BuildContext context) => Bug9875(),
+        'Bug9881': (BuildContext context) => Bug9881(),
+        'Bug9882': (BuildContext context) => Bug9882(),
+        'Bug9968': (BuildContext context) => Bug9968(),
+        'Bug9969': (BuildContext context) => Bug9969(),
+        'Bug9970': (BuildContext context) => Bug9970(),
       },
     );
   }
 }
 
 class MyAppPage extends StatefulWidget {
-  MyAppPage({Key key, this.title, this.textScaleFactor}) : super(key: key);
+  MyAppPage({Key key, this.title}) : super(key: key);
   final String title;
-  final double textScaleFactor;
   @override
-  MyAppPageState createState() => MyAppPageState(textScaleFactor);
+  MyAppPageState createState() => MyAppPageState();
 }
 
 class MyAppPageState extends State<MyAppPage> {
-
-  MyAppPageState(this.textScaleFactor) { }
-  final double textScaleFactor;
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +54,13 @@ class MyAppPageState extends State<MyAppPage> {
     final size = MediaQuery.of(context).size;
     return
       MediaQuery(
-      data: MediaQueryData(textScaleFactor: textScaleFactor),
+      data: MediaQueryData(),
       child: Container(
         key: Key('Container'),
-        constraints: BoxConstraints(minHeight: size.height * textScaleFactor, minWidth: size.width * textScaleFactor),
+        constraints: BoxConstraints(minHeight: size.height , minWidth: size.width),
         //width: size.width * textScaleFactor,
         //height: size.height * textScaleFactor,
-        padding: EdgeInsets.all(30.0 / textScaleFactor),
+        padding: EdgeInsets.all(30.0),
         color: Colors.white,
         child: Column(
           key: Key('Column'),
@@ -88,7 +83,7 @@ class MyAppPageState extends State<MyAppPage> {
                 onPressed: () => { Navigator.pushNamed(context, 'Bug9969')}),
             FlatButton(child: Text('Bug #9970'), key: Key('Bug9970'),
                 onPressed: () => { Navigator.pushNamed(context, 'Bug9970')}),
-            Expanded(child: Container(constraints: BoxConstraints(minHeight: size.height * textScaleFactor))),
+            Expanded(child: Container(constraints: BoxConstraints(minHeight: size.height))),
           ],
         ),
       ),

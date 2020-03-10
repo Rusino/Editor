@@ -15,7 +15,6 @@ Future<void> testBugs(WidgetTester tester) async {
   final TestWidgetsFlutterBinding binding = TestWidgetsFlutterBinding
       .ensureInitialized() as TestWidgetsFlutterBinding;
   final Size screenSize = binding.window.physicalSize;
-  final double textScaleFactor = 1.0; screenSize.width / 360.0;
 
   final Size originalSize = binding.renderView.size;
 
@@ -24,7 +23,7 @@ Future<void> testBugs(WidgetTester tester) async {
   await binding.setSurfaceSize(Size(screenSize.width / binding.window.devicePixelRatio, screenSize.height / binding.window.devicePixelRatio));
 
   //binding.window.textScaleFactorTestValue = 3.0;
-  await tester.pumpWidget(MyApp(textScaleFactor));
+  await tester.pumpWidget(MyApp());
   await tester.pump();
   await tester.pump();
 

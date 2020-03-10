@@ -3,13 +3,9 @@ import 'bug.dart';
 
 class Bug9881 extends StatelessWidget {
 
-  Bug9881(this.textScaleFactor) { }
-  final double textScaleFactor;
-
   @override
   Widget build(BuildContext context) {
     return Bug(
-        textScaleFactor: textScaleFactor,
         child: Material(
         child: Directionality(
             textDirection: TextDirection.ltr,

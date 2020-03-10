@@ -4,9 +4,6 @@ import 'bug.dart';
 class Bug9969 extends StatelessWidget {
   TextEditingController controller;
 
-  Bug9969(this.textScaleFactor) { }
-  final double textScaleFactor;
-
   @override
   Widget build(BuildContext context) {
 
@@ -18,7 +15,6 @@ class Bug9969 extends StatelessWidget {
     controller.selection = TextSelection(baseOffset: index, extentOffset: text.length);
 
     return Bug(
-        textScaleFactor: textScaleFactor,
         child: Material(
         child: Directionality(
           textDirection: TextDirection.ltr,
