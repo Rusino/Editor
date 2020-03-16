@@ -1,10 +1,21 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'bug.dart';
 
+import 'dart:ui' as ui;
+
+import 'package:file/file.dart';
+import 'package:file/local.dart';
+import 'package:path/path.dart' as path;
+import 'package:process/process.dart';
+import 'dart:io';
+
 class Bug9875 extends Bug {
+
+  bool foundAndEqual = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +34,7 @@ class Bug9875 extends Bug {
                         fontWeight: FontWeight.w900,
                         color: Colors.black,
                         letterSpacing: 20.0,
-                        background: Paint()
-                          ..color = Colors.red),
+                        background: Paint()..color = Colors.red),
                   )
               )
           )
@@ -32,11 +42,31 @@ class Bug9875 extends Bug {
     );
   }
 
+  void findParagraph(RenderObject parent) {
+    parent.visitChildren((child) {
+      if (child is RenderParagraph) {
+        var para = child as RenderParagraph;
+        String text = para.text.toPlainText();
+        if (text == 'PESTO') {
+          final max = para.getMaxIntrinsicWidth(para.size.height);
+          final min = para.getMinIntrinsicWidth(para.size.height);
+          foundAndEqual = (max == min);
+        }
+      } else {
+        findParagraph(child);
+      }
+    });
+  }
+
   Future<bool> test(WidgetTester tester) async {
-    bool success = true;
-    // TODO: Create a screenshot
-    await tester.pumpAndSettle();
-    await tester.pump(delay);
-    return success;
+
+    // Get the actual image
+    final repaintBoundary = find.byType(RepaintBoundary).evaluate().first.renderObject;
+    assert(!repaintBoundary.debugNeedsPaint);
+
+    // Find the right paragraph and check the widths (they were wrong when the bug was present)
+    foundAndEqual = false;
+    findParagraph(repaintBoundary);
+    return foundAndEqual;
   }
 }

@@ -57,7 +57,9 @@ class Bug9969 extends Bug {
     await tester.sendKeyUpEvent(LogicalKeyboardKey.shift);
     await tester.pumpAndSettle();
 
-    success &= controller.selection.baseOffset == (text.length / 2).floor();
+    success &=
+
+        controller.selection.baseOffset == (text.length / 2).floor();
     success &= controller.selection.extentOffset == text.length;
 
     return success;

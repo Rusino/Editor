@@ -26,14 +26,14 @@ class MyApp extends StatelessWidget {
       title: 'Test Bugs',
       home: MyAppPage(title: 'Text Editor Tests Home Page'),
       routes : {
-        'Bug9850': (BuildContext context) => Bug9850(),
+        //'Bug9850': (BuildContext context) => Bug9850(),
         'Bug9851': (BuildContext context) => Bug9851(),
         'Bug9875': (BuildContext context) => Bug9875(),
-        'Bug9881': (BuildContext context) => Bug9881(),
-        'Bug9882': (BuildContext context) => Bug9882(),
-        'Bug9968': (BuildContext context) => Bug9968(),
-        'Bug9969': (BuildContext context) => Bug9969(),
-        'Bug9970': (BuildContext context) => Bug9970(),
+        //'Bug9881': (BuildContext context) => Bug9881(),
+        //'Bug9882': (BuildContext context) => Bug9882(),
+        //'Bug9968': (BuildContext context) => Bug9968(),
+        //'Bug9969': (BuildContext context) => Bug9969(),
+        //'Bug9970': (BuildContext context) => Bug9970(),
       },
     );
   }

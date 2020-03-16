@@ -20,7 +20,10 @@ class Bug extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                child,
+                RepaintBoundary(
+                  key: Key('RepaintBoundary'),
+                  child: child,
+                ),
                 Expanded(child: Container(
                     padding: EdgeInsets.symmetric(vertical: 30.0),
                     child: Text(explanation,
