@@ -21,14 +21,15 @@ Future<void> testBugs(WidgetTester tester) async {
            binding.window.physicalSize.height / binding.window.devicePixelRatio));
 
   await tester.pumpWidget(MyApp());
-  await tester.pump();
-  await tester.pump();
+  await tester.pumpAndSettle();
 
   final MaterialApp myApp = tester.firstWidget(find.byType(MaterialApp));
+  await tester.tap(find.byKey(Key('Bugs')));
+  await tester.pumpAndSettle();
 
   final list = myApp.routes.entries.toList();
   for (var route in list) {
-    if (route.key.toString() != 'Back') {
+    if (route.key.toString().startsWith('Bug')) {
       await tester.tap(find.byKey(Key(route.key)));
       await tester.pumpAndSettle();
 
@@ -44,10 +45,14 @@ Future<void> testBugs(WidgetTester tester) async {
     }
   }
 
+  await tester.tap(find.byKey(Key('Back')));
+  await tester.pumpAndSettle();
 }
 
 void main() {
+
   testWidgets('Bugs', testBugs);
+
 }
 
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import "themes.dart";
+import "bugs.dart";
 import 'bug9850.dart';
 import 'bug9851.dart';
 import 'bug9875.dart';
@@ -10,7 +11,10 @@ import 'bug9882.dart';
 import 'bug9968.dart';
 import 'bug9969.dart';
 import 'bug9970.dart';
-
+import 'bug10049.dart';
+import 'bug10050.dart';
+import "stress.dart";
+import 'bengali.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,14 +30,19 @@ class MyApp extends StatelessWidget {
       title: 'Test Bugs',
       home: MyAppPage(title: 'Text Editor Tests Home Page'),
       routes : {
-        //'Bug9850': (BuildContext context) => Bug9850(),
+        'AllBugs': (BuildContext context) => Bugs(),
+        'Bug9850': (BuildContext context) => Bug9850(),
         'Bug9851': (BuildContext context) => Bug9851(),
         'Bug9875': (BuildContext context) => Bug9875(),
-        //'Bug9881': (BuildContext context) => Bug9881(),
-        //'Bug9882': (BuildContext context) => Bug9882(),
-        //'Bug9968': (BuildContext context) => Bug9968(),
-        //'Bug9969': (BuildContext context) => Bug9969(),
-        //'Bug9970': (BuildContext context) => Bug9970(),
+        'Bug9881': (BuildContext context) => Bug9881(),
+        'Bug9882': (BuildContext context) => Bug9882(),
+        'Bug9968': (BuildContext context) => Bug9968(),
+        'Bug9969': (BuildContext context) => Bug9969(),
+        'Bug9970': (BuildContext context) => Bug9970(),
+        //'Bug10049': (BuildContext context) => Bug10049(),
+        'Bug10050': (BuildContext context) => Bug10050(),
+        'AllStress': (BuildContext context) => Stress(),
+        'StressBengali': (BuildContext context) => Bengali(),
       },
     );
   }
@@ -64,22 +73,10 @@ class MyAppPageState extends State<MyAppPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           // TODO: transform into a list
           children: <Widget>[
-            FlatButton(child: Text('Bug #9850'), key: Key('Bug9850'),
-                onPressed: () => { Navigator.pushNamed(context, 'Bug9850')}),
-            FlatButton(child: Text('Bug #9851'), key: Key('Bug9851'),
-                onPressed: () => { Navigator.pushNamed(context, 'Bug9851')}),
-            FlatButton(child: Text('Bug #9875'), key: Key('Bug9875'),
-                onPressed: () => { Navigator.pushNamed(context, 'Bug9875')}),
-            FlatButton(child: Text('Bug #9881'), key: Key('Bug9881'),
-                onPressed: () => { Navigator.pushNamed(context, 'Bug9881')}),
-            FlatButton(child: Text('Bug #9882'), key: Key('Bug9882'),
-                onPressed: () => { Navigator.pushNamed(context, 'Bug9882')}),
-            FlatButton(child: Text('Bug #9968'), key: Key('Bug9968'),
-                onPressed: () => { Navigator.pushNamed(context, 'Bug9968')}),
-            FlatButton(child: Text('Bug #9969'), key: Key('Bug9969'),
-                onPressed: () => { Navigator.pushNamed(context, 'Bug9969')}),
-            FlatButton(child: Text('Bug #9970'), key: Key('Bug9970'),
-                onPressed: () => { Navigator.pushNamed(context, 'Bug9970')}),
+            FlatButton(child: Text('Bugs'), key: Key('Bugs'),
+                onPressed: () => { Navigator.pushNamed(context, 'AllBugs')}),
+            FlatButton(child: Text('Stress'), key: Key('Stress'),
+                onPressed: () => { Navigator.pushNamed(context, 'AllStress')}),
             Expanded(child: Container()),
           ],
         ),
