@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       home: MyAppPage(title: 'Text Editor Tests Home Page'),
       routes : {
         'AllBugs': (BuildContext context) => Bugs(),
+        /*
         'Bug9850': (BuildContext context) => Bug9850(),
         'Bug9851': (BuildContext context) => Bug9851(),
         'Bug9875': (BuildContext context) => Bug9875(),
@@ -39,8 +40,9 @@ class MyApp extends StatelessWidget {
         'Bug9968': (BuildContext context) => Bug9968(),
         'Bug9969': (BuildContext context) => Bug9969(),
         'Bug9970': (BuildContext context) => Bug9970(),
-        //'Bug10049': (BuildContext context) => Bug10049(),
-        'Bug10050': (BuildContext context) => Bug10050(),
+         */
+        'Bug10049': (BuildContext context) => Bug10049(),
+        //'Bug10050': (BuildContext context) => Bug10050(),
         'AllStress': (BuildContext context) => Stress(),
         'StressBengali': (BuildContext context) => Bengali(),
       },

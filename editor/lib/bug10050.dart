@@ -28,7 +28,7 @@ class Bug10050 extends Bug {
                 style: TextStyle(fontSize: 8),
                 controller: controller,
                 showCursor: true,
-                maxLines: 40,
+                maxLines: 5,
               ),
             )
         )

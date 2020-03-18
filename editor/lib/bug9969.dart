@@ -58,7 +58,6 @@ class Bug9969 extends Bug {
     await tester.pumpAndSettle();
 
     success &=
-
         controller.selection.baseOffset == (text.length / 2).floor();
     success &= controller.selection.extentOffset == text.length;
 
