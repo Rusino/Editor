@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import "themes.dart";
+import "info.dart";
 import "bugs.dart";
 import 'bug9850.dart';
 import 'bug9851.dart';
@@ -13,6 +14,7 @@ import 'bug9969.dart';
 import 'bug9970.dart';
 import 'bug10049.dart';
 import 'bug10050.dart';
+import 'bug10075.dart';
 import "stress.dart";
 import 'bengali.dart';
 
@@ -20,32 +22,16 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 
-  MyApp() { }
+  MyApp();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       key: Key('MaterialApp'),
       theme: kLightGalleryTheme,
-      title: 'Test Bugs',
+      title: 'Test Text Editing Functionality',
       home: MyAppPage(title: 'Text Editor Tests Home Page'),
-      routes : {
-        'AllBugs': (BuildContext context) => Bugs(),
-        /*
-        'Bug9850': (BuildContext context) => Bug9850(),
-        'Bug9851': (BuildContext context) => Bug9851(),
-        'Bug9875': (BuildContext context) => Bug9875(),
-        'Bug9881': (BuildContext context) => Bug9881(),
-        'Bug9882': (BuildContext context) => Bug9882(),
-        'Bug9968': (BuildContext context) => Bug9968(),
-        'Bug9969': (BuildContext context) => Bug9969(),
-        'Bug9970': (BuildContext context) => Bug9970(),
-         */
-        'Bug10049': (BuildContext context) => Bug10049(),
-        //'Bug10050': (BuildContext context) => Bug10050(),
-        'AllStress': (BuildContext context) => Stress(),
-        'StressBengali': (BuildContext context) => Bengali(),
-      },
+      routes : buildRoutes()
     );
   }
 }
@@ -73,7 +59,6 @@ class MyAppPageState extends State<MyAppPage> {
           key: Key('Column'),
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          // TODO: transform into a list
           children: <Widget>[
             FlatButton(child: Text('Bugs'), key: Key('Bugs'),
                 onPressed: () => { Navigator.pushNamed(context, 'AllBugs')}),

@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'bug.dart';
 
 class Bengali extends Bug {
@@ -37,7 +39,7 @@ class Bengali extends Bug {
 
   String generateText() {
 
-    final size = random.nextInt(100) * 200;
+    final size = random.nextInt(100) * 10;
     String text = '';
     for (int i = 0; i < size; ++i) {
       final index = random.nextInt(alphabet.length);
@@ -45,6 +47,40 @@ class Bengali extends Bug {
       text += char;
     }
     return text;
+  }
+
+  RenderEditable findRenderEditable(WidgetTester tester) {
+    final RenderObject root = tester.renderObject(find.byType(EditableText));
+    expect(root, isNotNull);
+
+    RenderEditable renderEditable;
+    void recursiveFinder(RenderObject child) {
+      if (child is RenderEditable) {
+        renderEditable = child;
+        return;
+      }
+      child.visitChildren(recursiveFinder);
+    }
+    root.visitChildren(recursiveFinder);
+    expect(renderEditable, isNotNull);
+    return renderEditable;
+  }
+
+  RenderEditable findParagraph(RenderObject parent) {
+    RenderEditable found = null;
+    parent.visitChildren((child) {
+      if (found != null) {
+      } else if (child is RenderEditable) {
+        var para = child as RenderEditable;
+        found = para;
+      } else {
+        found = findParagraph(child);
+      }
+      return found;
+    });
+    //String text = para.text.toPlainText();
+    //final max = para.getMaxIntrinsicWidth(para.size.height);
+    //final min = para.getMinIntrinsicWidth(para.size.height);
   }
 
   Future<bool> test(WidgetTester tester) async {
@@ -55,9 +91,30 @@ class Bengali extends Bug {
     for (int i = 0; i < 10; ++i) {
       random = math.Random(i);
       final text = generateText();
-      print(i.toString() + ' >>> ' + text + ' <<<');
-      await tester.enterText(textFormField, text);
-      await tester.pump();
+      String current = '';
+      await tester.showKeyboard(textFormField);
+      for (int c = 0; c < text.length; ++c) {
+          await tester.showKeyboard(find.byType(TextField));
+          current += text[c];
+          //current += 'ছছোঌ';
+          tester.testTextInput.updateEditingValue(TextEditingValue(
+            text: current,
+            selection: TextSelection.collapsed(offset: current.length),
+            composing: TextRange(start: 0, end: current.length),
+          ));
+          await tester.pump();
+
+          final paragraph = findRenderEditable(tester);
+
+          final rect = paragraph.getLocalRectForCaret(TextPosition(offset: current.length));
+          final offset = paragraph.localToGlobal(rect.center);
+          final position = paragraph.getPositionForPoint(offset);
+          if (position.offset != current.length) {
+            final delta = current.length - position.offset;
+            print('$c: $delta $position');
+            print(i.toString() + ' >>> ' + current + ' <<<');
+          }
+      }
       await tester.pump(delay);
     }
 

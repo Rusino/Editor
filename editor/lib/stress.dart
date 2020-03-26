@@ -1,3 +1,4 @@
+import 'package:editor/info.dart';
 import 'package:flutter/material.dart';
 
 class Stress extends StatefulWidget {
@@ -12,6 +13,7 @@ class StressState extends State<Stress> {
   @override
   Widget build(BuildContext context) {
 
+    final list = buildList('Stress', kStressList);
     return
       MediaQuery(
         data: MediaQueryData(),
@@ -23,15 +25,21 @@ class StressState extends State<Stress> {
             key: Key('Column'),
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            // TODO: transform into a list
             children: <Widget>[
-              FlatButton(child: Text('Bengali'), key: Key('StressBengali'),
-                  onPressed: () => { Navigator.pushNamed(context, 'StressBengali')}),
-              Expanded(child: Container()),
+              Expanded(
+                  child: Scrollbar(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(8.0),
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int position) => list[position](context),
+                      )
+                  )
+              ),
               FlatButton(
                   child: const Text('Back'),
                   key: Key('Back'),
-                  onPressed: () => Navigator.of(context).pop())
+                  onPressed: () => Navigator.pop(context))
             ],
           ),
         ),
