@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'bug.dart';
+import 'utils.dart';
 
 class Bug10075 extends Bug {
 
@@ -34,10 +36,42 @@ class Bug10075 extends Bug {
     );
   }
 
+  Offset getCenterOffset(RenderEditable paragraph, int pos) {
+    final rect = paragraph.getLocalRectForCaret(TextPosition(offset: pos));
+    return paragraph.localToGlobal(rect.center);
+  }
+
   Future<bool> test(WidgetTester tester) async {
 
-    bool success = true;
+    bool success = false;
 
+    final textFormField = find.byType(TextFormField);
+    final paragraph = findRenderEditable(tester);
+
+    final initialText = controller.text;
+    final initialOffset = getCenterOffset(paragraph, initialText.length);
+
+    String current = initialText;
+    await tester.showKeyboard(textFormField);
+    while (current.length < initialText.length * 2) {
+      await tester.showKeyboard(find.byType(TextField));
+      current = 'a' + current;
+      tester.testTextInput.updateEditingValue(TextEditingValue(
+        text: current,
+        selection: TextSelection.collapsed(offset: current.length),
+        composing: TextRange(start: 0, end: current.length),
+      ));
+      await tester.pump();
+
+      final currentOffset = getCenterOffset(paragraph, current.length);
+      if (currentOffset.dy > initialOffset.dy) {
+          // We moved to the next line
+          // Let's make sure the entire grapheme is on the next line
+          final graphemeOffset = getCenterOffset(paragraph, current.length - 6);
+          success = (graphemeOffset.dy == currentOffset.dy);
+          break;
+      }
+    }
     return success;
   }
 }

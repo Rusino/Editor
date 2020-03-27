@@ -16,7 +16,8 @@ class Bug10049 extends Bug {
   Widget build(BuildContext context) {
 
     return Bug(
-        explanation: 'Type in any plain TextField() in Bengali. '
+        explanation: 'I could not reproduce this bug so there is no fix and no test to test the fix.\n'
+                     'Type in any plain TextField() in Bengali. '
                      'As the text scrolls when typing a lot of text, the caret will begin '
                      'to show up before the final (correct) position. The number of glyphs '
                      'of offset increases the more than you type. Manually moving the caret '
@@ -41,9 +42,10 @@ class Bug10049 extends Bug {
   }
 
   Future<bool> test(WidgetTester tester) async {
+    // I could not reproduce this bug so there is not fix and no test :(
 
     bool success = true;
-
+/*
     TestTextInput testTextInput = tester.binding.testTextInput;
     focusNode.requestFocus();
     await tester.idle();
@@ -66,28 +68,22 @@ class Bug10049 extends Bug {
         for (int i = 0; i <= text.length + 1; ++i) {
             await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
             await tester.idle();
-            await tester.pump(delay);
         }
 
-        var length = text.length;
-        var offset = controller.selection.baseOffset;
-        print('$length $offset');
-
-        //tester.testTextInput.updateEditingValue(
-        //    TextEditingValue(
-        //      text: text,
-        //      selection: TextSelection.collapsed(offset: text.length),
-        //    ));
-        //await tester.enterText(textFormField, text);
-        //await tester.sendKeyDownEvent(LogicalKeyboardKey.end);
-        //await tester.idle();
+        tester.testTextInput.updateEditingValue(
+            TextEditingValue(
+              text: text,
+              selection: TextSelection.collapsed(offset: text.length),
+            ));
+        await tester.enterText(textFormField, text);
+        await tester.sendKeyDownEvent(LogicalKeyboardKey.end);
+        await tester.idle();
 
       }
       await tester.pump();
       print(i.toString() + ' >>> ' + text + ' <<<');
-
     }
-
+*/
     return success;
   }
 }

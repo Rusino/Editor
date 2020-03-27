@@ -7,6 +7,9 @@ import 'bug.dart';
 
 class Bug10050 extends Bug {
 
+  final alphabet = 'ঀঁংঃঅআইঈউঊঋঌএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহ়ঽািীুূৃৄেৈোৌ্ৎৗড়ঢ়য়ৠৡৢৣ০১২৩৪৫৬৭৮৯ৰৱ৲৳৴৵৶৷৸৹৺৻';
+  math.Random random;
+
   @override
   Widget build(BuildContext context) {
 
@@ -14,7 +17,8 @@ class Bug10050 extends Bug {
     controller.text = text;
 
     return Bug(
-        explanation: 'In a plain TextField(), type lots of Bengali, focusing on (but not only) '
+        explanation: 'Observe: no crash!\n'
+                     'In a plain TextField(), type lots of Bengali, focusing on (but not only) '
                      'the top row of characters. I have not narrowed down a particular string '
                      '(since it crashes, and I dont understand what the contents I\'m typing is), '
                      'but some combinations result in a segfault.\n'
@@ -38,6 +42,8 @@ class Bug10050 extends Bug {
   Future<bool> test(WidgetTester tester) async {
 
     bool success = true;
+
+    // This text crashed SkParagraph some time ago but does not amymore
 
     return success;
   }

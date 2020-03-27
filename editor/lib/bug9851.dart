@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'bug.dart';
+import 'utils.dart';
 
 class Bug9851 extends Bug {
 
@@ -29,27 +30,30 @@ class Bug9851 extends Bug {
   Future<bool> test(WidgetTester tester) async {
 
     bool success = true;
-    final binding = tester.binding;
 
-    final box1 = tester.renderObject(find.byType(Container).first) as RenderBox;
+    final repaintBoundary = find.byType(RepaintBoundary).evaluate().first.renderObject;
+    var paragraph = findParagraph(repaintBoundary);
+    final box1 = paragraph.size;
+    //tester.renderObject(find.byType(Container).first) as RenderBox;
     // Take a screenshot here
 
-    await binding.setSurfaceSize(
-        Size(binding.window.physicalSize.height / binding.window.devicePixelRatio,
-            binding.window.physicalSize.width / binding.window.devicePixelRatio));
+    await tester.binding.setSurfaceSize(
+        Size(tester.binding.window.physicalSize.height / tester.binding.window.devicePixelRatio,
+             tester.binding.window.physicalSize.width / tester.binding.window.devicePixelRatio));
     await tester.pumpAndSettle();
     await tester.pump(delay);
-    final box2 = tester.renderObject(find.byType(Container).first) as RenderBox;
-    success &= box1.size != box2.size;
 
-    await binding.setSurfaceSize(
-        Size(binding.window.physicalSize.width / binding.window.devicePixelRatio,
-            binding.window.physicalSize.height / binding.window.devicePixelRatio));
+    final box2 = paragraph.size;
+    success &= box1 != box2;
+
+    await tester.binding.setSurfaceSize(
+        Size(tester.binding.window.physicalSize.width / tester.binding.window.devicePixelRatio,
+            tester.binding.window.physicalSize.height / tester.binding.window.devicePixelRatio));
     await tester.pumpAndSettle();
     await tester.pump(delay);
-    final box3 = tester.renderObject(find.byType(Container).first) as RenderBox;
+    final box3 = paragraph.size;
     // Take a screenshot here and compare with the first screenshot (must be the same)
-    success &= box1.size == box3.size;
+    success &= box1 == box3;
 
     return success;
   }
