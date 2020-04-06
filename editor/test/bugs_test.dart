@@ -75,7 +75,13 @@ void main() {
     final list = myApp.routes.entries.toList();
     for (var route in list) {
       if (route.key.toString().startsWith('Bug')) {
-        await tester.tap(find.byKey(Key(route.key)));
+
+        // Make sure the button is visible
+        var button = find.byKey(Key(route.key));
+        Scrollable.ensureVisible(tester.element(button));
+        await tester.pumpAndSettle();
+
+        await tester.tap(button);
         await tester.pumpAndSettle();
 
         final bug = tester.firstWidget(find.byKey(Key('Bug'))) as Bug;

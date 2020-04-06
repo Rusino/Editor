@@ -6,9 +6,9 @@ class Bug extends StatelessWidget {
   final String explanation;
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode(canRequestFocus: true);
-  final Duration delay = const Duration(milliseconds: 3000);
+  final Duration delay = const Duration(milliseconds: 1000);
 
-  Bug({ Key key, this.explanation, this.child}) : super(key: Key('Bug'));
+  Bug({ String key: 'Bug', this.explanation, this.child}) : super(key: Key(key));
 
   @override
   Widget build(BuildContext context) {

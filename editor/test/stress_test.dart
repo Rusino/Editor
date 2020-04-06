@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:editor/main.dart';
-import 'package:editor/bug.dart';
+import 'package:editor/stress.dart';
 
 Future<void> testStress(WidgetTester tester) async {
   final TestWidgetsFlutterBinding binding = TestWidgetsFlutterBinding
@@ -33,8 +33,9 @@ Future<void> testStress(WidgetTester tester) async {
       await tester.tap(find.byKey(Key(route.key)));
       await tester.pumpAndSettle();
 
-      final bug = tester.firstWidget(find.byKey(Key('Bug'))) as Bug;
+      final bug = tester.firstWidget(find.byKey(Key('Stress'))) as Stress;
       if (bug != null) {
+        bug.startTesting();
         final result = await bug.test(tester);
         if (!result) {
           print('Failed ' + route.key.toString());

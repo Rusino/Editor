@@ -1,22 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'info.dart';
 
 class Bugs extends StatefulWidget {
-  Bugs({Key key, this.title}) : super(key: key);
+  Bugs({Key key, this.title, this.prefix}) : super(key: key);
   final String title;
+  final String prefix;
 
   @override
-  BugsState createState() => BugsState();
+  BugsState createState() => BugsState(prefix);
 }
 
 class BugsState extends State<Bugs> {
 
+  final String prefix;
+  BugsState(this.prefix);
+
   @override
   Widget build(BuildContext context) {
 
-    final list = buildList('Bug', kBugList);
+    final list = prefix == 'Bug'
+                      ? buildList('Bug', kBugList)
+                      : buildList('Stress', kStressList);
     return
       MediaQuery(
         data: MediaQueryData(),

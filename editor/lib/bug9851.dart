@@ -44,7 +44,7 @@ class Bug9851 extends Bug {
     await tester.pump(delay);
 
     final box2 = paragraph.size;
-    success &= box1 != box2;
+    success &= box1!= box2;
 
     await tester.binding.setSurfaceSize(
         Size(tester.binding.window.physicalSize.width / tester.binding.window.devicePixelRatio,

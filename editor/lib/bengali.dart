@@ -5,18 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'bug.dart';
+import 'stress.dart';
 import 'utils.dart';
 
-class Bengali extends Bug {
+class Bengali extends Stress {
 
   math.Random random;
-  final alphabet = 'ঀঁংঃঅআইঈউঊঋঌএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহ়ঽািীুূৃৄেৈোৌ্ৎৗড়ঢ়য়ৠৡৢৣ০১২৩৪৫৬৭৮৯ৰৱ৲৳৴৵৶৷৸৹৺৻';
+  final alphabet = ' ঀঁংঃঅআইঈউঊঋঌএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহ়ঽািীুূৃৄেৈোৌ্ৎৗড়ঢ়য়ৠৡৢৣ০১২৩৪৫৬৭৮৯ৰৱ৲৳৴৵৶৷৸৹৺৻';
 
   @override
   Widget build(BuildContext context) {
 
-    return Bug(
+    return Stress(
         explanation: 'In a plain TextField(), type lots of Bengali, focusing on (but not only) '
                      'the top row of characters. I have not narrowed down a particular string '
                      '(since it crashes, and I dont understand what the contents I\'m typing is), '
@@ -55,7 +55,12 @@ class Bengali extends Bug {
     bool success = true;
 
     final textFormField = find.byType(TextFormField);
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 100; ++i) {
+
+      if (super.finished) {
+        return success;
+      }
+
       random = math.Random(i);
       final text = generateText();
       String current = '';

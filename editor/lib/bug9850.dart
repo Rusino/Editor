@@ -40,20 +40,23 @@ class Bug9850 extends Bug {
     success &= controller.selection.baseOffset == controller.selection.extentOffset;
     final x3 = controller.selection.baseOffset;
     await tester.sendKeyDownEvent(LogicalKeyboardKey.arrowLeft);
-    await tester.idle();
-    await tester.pump(delay);
+    await tester.pumpAndSettle();
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.arrowLeft);
+    await tester.pumpAndSettle();
 
     success &= controller.selection.baseOffset == controller.selection.extentOffset;
     final x2 = controller.selection.baseOffset;
     await tester.sendKeyDownEvent(LogicalKeyboardKey.arrowLeft);
-    await tester.idle();
-    await tester.pump(delay);
+    await tester.pumpAndSettle();
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.arrowLeft);
+    await tester.pumpAndSettle();
 
     success &= controller.selection.baseOffset == controller.selection.extentOffset;
     final x1 = controller.selection.baseOffset;
     await tester.sendKeyDownEvent(LogicalKeyboardKey.arrowLeft);
-    await tester.idle();
-    await tester.pump(delay);
+    await tester.pumpAndSettle();
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.arrowLeft);
+    await tester.pumpAndSettle();
 
     success &= x3 > x2 && x2 > x1;
 

@@ -14,8 +14,9 @@ import 'bug9970.dart';
 import 'bug10049.dart';
 import 'bug10050.dart';
 import 'bug10075.dart';
-import "stress.dart";
 import 'bengali.dart';
+import 'mixed.dart';
+import 'singles.dart';
 
 class Info {
   Info(this.name, this.builder);
@@ -42,23 +43,24 @@ Map<String, WidgetBuilder> buildRoutes() {
     for (final bug in kBugList) 'Bug${bug.name}': bug.builder,
   });
   result.addAll(<String, WidgetBuilder>{
-    for (final bug in kStressList) 'Stress${bug.name}': bug.builder,
+    for (final stress in kStressList) 'Stress${stress.name}': stress.builder,
   });
   result.addAll({
-    'AllBugs': (BuildContext context) => Bugs(),
-    'AllStress': (BuildContext context) => Stress(),
+    'AllBugs': (BuildContext context) => Bugs(prefix: 'Bug'),
+    'AllStress': (BuildContext context) => Bugs(prefix: 'Stress'),
   });
-
   return result;
 }
 
 final List<Info> kBugList = <Info>[
+
   Info('9850', (BuildContext context) => Bug9850()),
   Info('9851', (BuildContext context) => Bug9851()),
   Info('9875', (BuildContext context) => Bug9875()),
   Info('9881', (BuildContext context) => Bug9881()),
   Info('9882', (BuildContext context) => Bug9882()),
   Info('9968', (BuildContext context) => Bug9968()),
+  Info('9969', (BuildContext context) => Bug9969()),
   Info('9970', (BuildContext context) => Bug9970()),
   Info('10049', (BuildContext context) => Bug10049()),
   Info('10050', (BuildContext context) => Bug10050()),
@@ -66,8 +68,12 @@ final List<Info> kBugList = <Info>[
 ];
 
 final List<Info> kStressList = <Info>[
+  Info('Mixed', (BuildContext context) => Mixed()),
+  Info('Singles', (BuildContext context) => Singles()),
   Info('Bengali', (BuildContext context) => Bengali()),
 ];
+
+
 
 
 

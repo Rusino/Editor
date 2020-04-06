@@ -52,14 +52,27 @@ class Bug9969 extends Bug {
 
     await tester.sendKeyDownEvent(LogicalKeyboardKey.shift);
     await tester.pumpAndSettle();
+    await tester.pump(delay);
+    await tester.idle();
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
     await tester.pumpAndSettle();
+    await tester.pump(delay);
+    await tester.idle();
     await tester.sendKeyUpEvent(LogicalKeyboardKey.shift);
     await tester.pumpAndSettle();
+    await tester.pump(delay);
+    await tester.idle();
 
     success &=
         controller.selection.baseOffset == (text.length / 2).floor();
+    if (!success) {
+      print('${controller.selection.baseOffset} != ${(text.length / 2).floor()}');
+    }
+
     success &= controller.selection.extentOffset == text.length;
+    if (!success) {
+      print('${controller.selection.extentOffset} != ${text.length}');
+    }
 
     return success;
   }
