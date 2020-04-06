@@ -5,12 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'stress.dart';
+import 'bug.dart';
 import 'utils.dart';
 
-class Singles extends Stress {
+class Singles extends Bug {
 
-  math.Random random;
+  Singles({ String explanation, Widget child}) : super(key: 'Stress', explanation: explanation, child: child);
+
+  math.Random random = math.Random(0);
   final arabic = 'غظضذخثتشرقصفعسنملكيطحزوهدجبأ';
   final bengali = 'ঀঁংঃঅআইঈউঊঋঌএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহ়ঽািীুূৃৄেৈোৌ্ৎৗড়ঢ়য়ৠৡৢৣ০১২৩৪৫৬৭৮৯ৰৱ৲৳৴৵৶৷৸৹৺৻';
   final english = 'abcdefghijklmnopqrstuvwxyz';
@@ -18,7 +20,8 @@ class Singles extends Stress {
   @override
   Widget build(BuildContext context) {
 
-    return Stress(
+    controller.text = generateRandomText();
+    return Bug(
         explanation: 'In a plain TextField(), type lots of Arabic.\n'
                      'It should not crash at least.',
         child: Material(
@@ -33,11 +36,13 @@ class Singles extends Stress {
                 maxLines: 40,
               ),
             )
-        )
+        ),
+        generateText: generateRandomText,
     );
   }
 
-  String generateText() {
+  @override
+  String generateRandomText() {
 
     final List<String> alphabets = [
       english,
@@ -70,12 +75,12 @@ class Singles extends Stress {
     bool success = true;
 
     final textFormField = find.byType(TextFormField);
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 10; ++i) {
       if (super.finished) {
           return success;
       }
       random = math.Random(i);
-      final text = generateText();
+      final text = generateRandomText();
       print('>>> $text <<');
       await tester.showKeyboard(textFormField);
       tester.testTextInput.updateEditingValue(TextEditingValue(
@@ -83,8 +88,11 @@ class Singles extends Stress {
         selection: TextSelection.collapsed(offset: text.length),
         composing: TextRange(start: 0, end: text.length),
       ));
-      await tester.pump(delay);
+      await tester.pumpAndSettle();
+      //await tester.pump(delay);
     }
     return success;
   }
+
+
 }

@@ -5,17 +5,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'stress.dart';
+import 'bug.dart';
 import 'utils.dart';
 
-class Mixed extends Stress {
+class Mixed extends Bug {
 
-  math.Random random;
+  Mixed({ String explanation, Widget child}) : super(key: 'Stress', explanation: explanation, child: child);
+
+  math.Random random = math.Random(0);
 
   @override
   Widget build(BuildContext context) {
 
-    return Stress(
+    controller.text = generateMixedText();
+    return Bug(
         explanation: 'In a plain TextField(), type lots of Arabic.\n'
                      'It should not crash at least.',
         child: Material(
@@ -30,11 +33,12 @@ class Mixed extends Stress {
                 maxLines: 40,
               ),
             )
-        )
+        ),
+      generateText: generateMixedText,
     );
   }
 
-  String generateText() {
+  String generateMixedText() {
 
     final List<String> alphabets = [
       english,
@@ -67,12 +71,12 @@ class Mixed extends Stress {
     bool success = true;
 
     final textFormField = find.byType(TextFormField);
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 10; ++i) {
       if (super.finished) {
           return success;
       }
       random = math.Random(i);
-      final text = generateText();
+      final text = generateMixedText();
       print('>>> $text <<');
       await tester.showKeyboard(textFormField);
       tester.testTextInput.updateEditingValue(TextEditingValue(

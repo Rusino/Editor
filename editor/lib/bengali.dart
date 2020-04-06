@@ -5,18 +5,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'stress.dart';
+import 'bug.dart';
 import 'utils.dart';
 
-class Bengali extends Stress {
+class Bengali extends Bug {
 
-  math.Random random;
+  Bengali({ String explanation, Widget child}) : super(key: 'Stress', explanation: explanation, child: child);
+
+  math.Random random = math.Random(0);
   final alphabet = ' ঀঁংঃঅআইঈউঊঋঌএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহ়ঽািীুূৃৄেৈোৌ্ৎৗড়ঢ়য়ৠৡৢৣ০১২৩৪৫৬৭৮৯ৰৱ৲৳৴৵৶৷৸৹৺৻';
 
   @override
   Widget build(BuildContext context) {
 
-    return Stress(
+    controller.text = generateBengaliText();
+    return Bug(
         explanation: 'In a plain TextField(), type lots of Bengali, focusing on (but not only) '
                      'the top row of characters. I have not narrowed down a particular string '
                      '(since it crashes, and I dont understand what the contents I\'m typing is), '
@@ -34,11 +37,13 @@ class Bengali extends Stress {
                 maxLines: 40,
               ),
             )
-        )
+        ),
+        generateText: generateBengaliText,
     );
   }
 
-  String generateText() {
+  @override
+  String generateBengaliText() {
 
     final size = random.nextInt(100) * 10;
     String text = '';
@@ -55,14 +60,14 @@ class Bengali extends Stress {
     bool success = true;
 
     final textFormField = find.byType(TextFormField);
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 10; ++i) {
 
       if (super.finished) {
         return success;
       }
 
       random = math.Random(i);
-      final text = generateText();
+      final text = generateBengaliText();
       String current = '';
       await tester.showKeyboard(textFormField);
       for (int c = 0; c < text.length; ++c) {

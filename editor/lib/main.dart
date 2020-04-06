@@ -3,20 +3,6 @@ import 'package:flutter/cupertino.dart';
 
 import "themes.dart";
 import "info.dart";
-import "bugs.dart";
-import 'bug9850.dart';
-import 'bug9851.dart';
-import 'bug9875.dart';
-import 'bug9881.dart';
-import 'bug9882.dart';
-import 'bug9968.dart';
-import 'bug9969.dart';
-import 'bug9970.dart';
-import 'bug10049.dart';
-import 'bug10050.dart';
-import 'bug10075.dart';
-import "stress.dart";
-import 'bengali.dart';
 
 void main() => runApp(MyApp());
 
